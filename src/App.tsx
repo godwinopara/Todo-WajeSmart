@@ -1,18 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import TodoFilter from "./components/TodoFilter";
-import { Filter } from "./types/Todo";
+import { Filter, TodoProps } from "./types/Todo";
+import axios from "axios";
 
 function App() {
   // State to manage the list of todos. Each todo has an id, text, and completion status.
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Buy milk", completed: false },
-    { id: 2, text: "Walk the dog", completed: true },
-    { id: 3, text: "Do laundry", completed: false },
-  ]);
-
+  const [todos, setTodos] = useState<TodoProps[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchTodos = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get("https://jsonplaceholder.typicode.com/todos", {
+          signal: controller.signal,
+        });
+        setTodos(response.data);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Fetch Aborted");
+        } else {
+          setError("Error Fetching Data");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTodos();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   // Function to handle the toggling of a todo's completion status
   // It takes an id and updates the corresponding todo's 'completed' status
@@ -35,7 +63,7 @@ function App() {
   };
 
   const addTodoItem = (text: string) => {
-    setTodos([...todos, { id: todos.length + 1, text: text, completed: false }]);
+    setTodos([...todos, { id: todos.length + 1, title: text, completed: false }]);
   };
 
   const handleChangeFilter = (filter: Filter) => {
@@ -48,6 +76,14 @@ function App() {
     if (filter === "active") return !todo.completed;
     return true; // "all" filter shows all todos
   });
+
+  if (loading) {
+    return <div>lOADING............</div>;
+  }
+
+  if (error) {
+    return <div>error.............</div>;
+  }
 
   return (
     <>
