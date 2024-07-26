@@ -12,7 +12,7 @@ export interface TodoListProps {
 
 export interface TodoProps {
   id: number;
-  text: string;
+  title: string;
   completed: boolean;
 }
 
