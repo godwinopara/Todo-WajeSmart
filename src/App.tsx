@@ -1,6 +1,8 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
+import TodoFilter from "./components/TodoFilter";
+import { Filter } from "./types/Todo";
 
 function App() {
   // State to manage the list of todos. Each todo has an id, text, and completion status.
@@ -10,7 +12,7 @@ function App() {
     { id: 3, text: "Do laundry", completed: false },
   ]);
 
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<Filter>("all");
 
   // Function to handle the toggling of a todo's completion status
   // It takes an id and updates the corresponding todo's 'completed' status
@@ -36,8 +38,8 @@ function App() {
     setTodos([...todos, { id: todos.length + 1, text: text, completed: false }]);
   };
 
-  const handleChangeFilter = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
+  const handleChangeFilter = (filter: Filter) => {
+    setFilter(filter);
   };
 
   // Function to filter todos based on the selected filter
@@ -50,32 +52,7 @@ function App() {
   return (
     <>
       <TodoForm addTodo={addTodoItem} />
-      <div>
-        <div>
-          <label htmlFor="all">All</label>
-          <input type="radio" name="all" value="all" checked={filter === "all"} onChange={handleChangeFilter} />
-        </div>
-        <div>
-          <label htmlFor="completed">Completed</label>
-          <input
-            type="radio"
-            name="completed"
-            value="completed"
-            checked={filter === "completed"}
-            onChange={handleChangeFilter}
-          />
-        </div>
-        <div>
-          <label htmlFor="active">Active</label>
-          <input
-            type="radio"
-            name="active"
-            value="active"
-            checked={filter === "active"}
-            onChange={handleChangeFilter}
-          />
-        </div>
-      </div>
+      <TodoFilter filter={filter} changeFilter={handleChangeFilter} />
       <TodoList todos={filteredTodos} toggleCompleted={handleChangeTodo} removeTodo={handleRemoveTodo} />
     </>
   );

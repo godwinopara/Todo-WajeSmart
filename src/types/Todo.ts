@@ -15,3 +15,10 @@ export interface TodoProps {
   text: string;
   completed: boolean;
 }
+
+export interface TodoFilterProps {
+  filter: string;
+  changeFilter: () => void;
+}
+
+export type Filter = "all" | "completed" | "active";
