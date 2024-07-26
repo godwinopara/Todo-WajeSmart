@@ -17,8 +17,8 @@ export interface TodoProps {
 }
 
 export interface TodoFilterProps {
-  filter: string;
-  changeFilter: () => void;
+  filter: Filter;
+  changeFilter: (filter: Filter) => void;
 }
 
 export type Filter = "all" | "completed" | "active";
