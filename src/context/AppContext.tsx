@@ -1,7 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config";
+// import { SECRET_KEY } from "../config";
 import { ContextProps } from "../types/Context";
+import { DecodedToken } from "../types/Jwt";
+import { jwtDecode } from "jwt-decode";
+import { generateFakeJWT } from "../utils/generateFakeJWT";
 
 export const AppContext = createContext<ContextProps | undefined>(undefined);
 
@@ -10,13 +12,15 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token && SECRET_KEY) {
+    if (token) {
       try {
-        // Verify the token using the secret key
-        jwt.verify(token, SECRET_KEY);
-        setIsAuthenticated(true);
+        const decoded: DecodedToken = jwtDecode(token);
+        if (decoded.exp * 1000 > Date.now()) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem("token");
+        }
       } catch (error) {
-        // Clear the token if verification fails
         localStorage.removeItem("token");
       }
     }
@@ -25,12 +29,13 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   // Function to handle user login
   const login = (username: string, password: string) => {
     // Simulate user verification
-    if (username === "user" && password === "password" && SECRET_KEY) {
-      const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1h" });
+    if (username === "user" && password === "password") {
+      const token = generateFakeJWT({ username });
       localStorage.setItem("token", token);
       setIsAuthenticated(true);
     } else {
       console.error("Invalid credentials");
+      return;
     }
   };
 
