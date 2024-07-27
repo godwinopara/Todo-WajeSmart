@@ -1,9 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-// import { SECRET_KEY } from "../config";
 import { ContextProps } from "../types/Context";
-import { DecodedToken } from "../types/Jwt";
-import { jwtDecode } from "jwt-decode";
-import { generateFakeJWT } from "../utils/generateFakeJWT";
+import { generateFakeJWT, isTokenExpired } from "../utils/generateFakeJWT";
 
 export const AppContext = createContext<ContextProps | undefined>(undefined);
 
@@ -12,30 +9,23 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded: DecodedToken = jwtDecode(token);
-        if (decoded.exp * 1000 > Date.now()) {
-          setIsAuthenticated(true);
-        } else {
-          localStorage.removeItem("token");
-        }
-      } catch (error) {
-        localStorage.removeItem("token");
-      }
+    if (token && !isTokenExpired(token)) {
+      setIsAuthenticated(true);
+    } else {
+      localStorage.removeItem("token");
     }
   }, []);
 
   // Function to handle user login
   const login = (username: string, password: string) => {
-    // Simulate user verification
     if (username === "user" && password === "password") {
-      const token = generateFakeJWT({ username });
+      const token = generateFakeJWT();
       localStorage.setItem("token", token);
       setIsAuthenticated(true);
+      return true;
     } else {
       console.error("Invalid credentials");
-      return;
+      return false;
     }
   };
 

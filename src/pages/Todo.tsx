@@ -7,6 +7,7 @@ import TodoList from "../components/TodoList";
 
 function Todo() {
   // State to manage the list of todos. Each todo has an id, text, and completion status.
+
   const [todos, setTodos] = useState<TodoProps[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,7 @@ function Todo() {
 
   // Function to handle the toggling of a todo's completion status
   // It takes an id and updates the corresponding todo's 'completed' status
+
   const handleChangeTodo = (id: number) => {
     setTodos(
       todos.map((todo) => {
@@ -58,6 +60,7 @@ function Todo() {
 
   // Function to remove a todo by its id
   // It filters out the todo with the matching id from the todos array
+
   const handleRemoveTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -71,6 +74,7 @@ function Todo() {
   };
 
   // Function to filter todos based on the selected filter
+
   const filteredTodos = todos.filter((todo) => {
     if (filter === "completed") return todo.completed;
     if (filter === "active") return !todo.completed;

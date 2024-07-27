@@ -1,9 +1,9 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = function () {
-  const formData = { username: "user@email.com", password: "password" };
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
   const { login } = useAppContext();
   const navigate = useNavigate();
@@ -11,8 +11,11 @@ const Login: React.FC = function () {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      login(formData.username, formData.password);
-      navigate("/");
+      const authUser = login(formData.username, formData.password);
+      if (authUser) {
+        setFormData({ username: "", password: "" });
+        navigate("/todos");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -24,11 +27,23 @@ const Login: React.FC = function () {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Email</label>
-          <input type="username" id="username" name="username" value={formData.username} />
+          <input
+            type="username"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" value={formData.password} />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
         </div>
 
         <button type="submit">Login</button>
