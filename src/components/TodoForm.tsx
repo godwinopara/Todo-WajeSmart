@@ -21,9 +21,17 @@ function TodoForm({ addTodo }: AddTodoProps) {
   };
 
   return (
-    <form onSubmit={handleAddTodo}>
-      <input type="text" value={todoItem} placeholder="Enter Todo Item" onChange={handleChangeTodoItem} />
-      <button type="submit">Add Todo</button>
+    <form onSubmit={handleAddTodo} className="flex justify-center mb-8">
+      <input
+        className="border py-3 px-3 mr-3 lg:w-[60%]"
+        type="text"
+        value={todoItem}
+        placeholder="Enter Todo Item"
+        onChange={handleChangeTodoItem}
+      />
+      <button type="submit" className="bg-black text-white py-3 px-4 round-md">
+        Add Todo
+      </button>
     </form>
   );
 }

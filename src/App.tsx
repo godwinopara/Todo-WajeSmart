@@ -5,11 +5,13 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import Todo from "./pages/Todo";
 import About from "./pages/About";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <AppProvider>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

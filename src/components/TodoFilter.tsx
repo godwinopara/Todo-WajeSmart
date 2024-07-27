@@ -2,13 +2,17 @@ import { TodoFilterProps } from "../types/Todo";
 
 function TodoFilter({ filter, changeFilter }: TodoFilterProps) {
   return (
-    <div>
+    <div className="flex py-4 gap-x-3">
       <div>
-        <label htmlFor="all">All</label>
+        <label htmlFor="all" className="mr-2">
+          All
+        </label>
         <input type="radio" name="all" value="all" checked={filter === "all"} onChange={() => changeFilter("all")} />
       </div>
       <div>
-        <label htmlFor="completed">Completed</label>
+        <label htmlFor="completed" className="mr-2">
+          Completed
+        </label>
         <input
           type="radio"
           name="completed"
@@ -18,7 +22,9 @@ function TodoFilter({ filter, changeFilter }: TodoFilterProps) {
         />
       </div>
       <div>
-        <label htmlFor="active">Active</label>
+        <label htmlFor="active" className="mr-2">
+          Active
+        </label>
         <input
           type="radio"
           name="active"
