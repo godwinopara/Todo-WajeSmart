@@ -91,9 +91,12 @@ function Todo() {
 
   return (
     <>
-      <TodoForm addTodo={addTodoItem} />
-      <TodoFilter filter={filter} changeFilter={handleChangeFilter} />
-      <TodoList todos={filteredTodos} toggleCompleted={handleChangeTodo} removeTodo={handleRemoveTodo} />
+      <main className="py-10 px-6 max-w-[900px] mx-auto">
+        <h1 className="text-3xl font-medium mb-8 text-center">Todo Application</h1>
+        <TodoForm addTodo={addTodoItem} />
+        <TodoFilter filter={filter} changeFilter={handleChangeFilter} />
+        <TodoList todos={filteredTodos} toggleCompleted={handleChangeTodo} removeTodo={handleRemoveTodo} />
+      </main>
     </>
   );
 }
