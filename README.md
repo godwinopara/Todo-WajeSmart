@@ -41,3 +41,21 @@ To start the development server:
 
 ```sh
 npm run dev
+
+This will start the development server. Open your browser and navigate to http://localhost:5173 to see the application in action.
+```
+
+## Assumptions and Decisions
+
+- The project assumes a basic understanding of React and TypeScript.
+- It uses Vite for its fast build times and modern features.
+- Jest is used for testing to ensure the components work as expected.
+- CSS Modules are used for styling components to keep styles scoped to the component.
+
+## Branching Strategy
+
+The project uses a simple branching strategy:
+
+- **main**: This is the production branch. All feature branches should be merged into this branch once they have been reviewed and approved.
+- **feature/{feature-name}**: Use this naming convention for new features or enhancements. Create a new branch from `main` for each feature or enhancement. Once the feature is complete, open a pull request to merge it into `main`.
+- **bugfix/{bugfix-name}**: Use this naming convention for bug fixes. Create a new branch from `main` for each bug fix. Once the bug fix is complete, open a pull request to merge it into `main`.
