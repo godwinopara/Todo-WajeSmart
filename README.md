@@ -45,6 +45,16 @@ npm run dev
 This will start the development server. Open your browser and navigate to http://localhost:5173 to see the application in action.
 ```
 
+Login to the application
+
+```sh
+A backend was not setup for the application yet so i used a default username and password
+
+username: user
+password: password
+
+```
+
 ## Assumptions and Decisions
 
 - The project assumes a basic understanding of React and TypeScript.
